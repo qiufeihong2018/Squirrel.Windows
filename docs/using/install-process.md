@@ -1,26 +1,22 @@
 | [docs](..)  / [using](.) / install-process.md
 |:---|
 
-# Install Process
+# 安装过程
 
-This section goes into detail about the install process.
-
+本节详细介绍安装过程。
 ## Setup.exe 
 
-`Setup.exe` is a C++ bootstrapper application used to install your app on the user's local system. It is generated as part of the `Squirrel --releasify` process.
+`Setup.exe`是一个c++引导程序应用程序，用于在用户的本地系统上安装应用程序。它是生成的 `Squirrel --releasify` 程序.
 
-The `Setup.exe` file includes the `Update.exe` application and the latest version of the MyApp package to be installed. A single executable file can be provided due to the `WriteZipToSetup.exe` tool injecting the appropriate files into the exe. 
+The `Setup.exe` 文件包括 `Update.exe`应用程序和要安装的MyApp包的最新版本。由于`WriteZipToSetup.exe` 工具将适当的文件注入到exe中，可以提供一个单独的可执行文件。
 
-In addition, the `Setup.exe` will also ensure that .NET 4.5 is installed on the user's computer.
+此外， `Setup.exe` 还将确保用户的计算机上安装了.NET 4.5。
+## 安装位置
 
-## Install Location
-
-The `Setup.exe`, and later the `UpdateManager` in MyApp must have the ability to write files to and execute files from the application install location. To ensure permission for all types of users, the user's application data directory is selected as the install location (i.e., `%LocalAppData%\MyApp`).
-
-The installation root really only needs to consist of two types of folders:
-
-* **Packages** - folder used to download and assemble the update package files.
-* **App Folders** - the "installed" application files for a given version of MyApp.
+`Setup.exe`和MyApp中的 `UpdateManager`必须能够向应用程序安装位置写入文件和执行文件。为了确保所有类型用户的权限，选择用户的应用程序数据目录作为安装位置(i.e., `%LocalAppData%\MyApp`).。
+安装根目录只需要包含两种类型的文件夹:
+* **Packages** - 用于下载和组装更新包文件的文件夹。
+* **App Folders** - 给定版本的MyApp的“已安装”应用程序文件。
 
 ```
 \%LocalAppData%\MyApp
@@ -34,22 +30,22 @@ The installation root really only needs to consist of two types of folders:
       MyApp.exe
 ```
 
-The packages directory is effectively immutable, it simply consists of the packages we've downloaded. Using the user's local application data directory means that we the needed write-access to the install directory on a per-user basis. 
+包目录实际上是不可变的，它只是由我们下载的包组成。使用用户的本地应用程序数据目录意味着我们需要对每个用户的安装目录进行写访问。
 
-**Tip:** See [Machine-wide Installs](machine-wide-installs.md) for more information on ensuring your application pushed to all users in an enterprise environment. 
+**注意:** 
+有关确保将应用程序推给企业环境中的所有用户的更多信息，请参阅[Machine-wide Installs](machine-wide-installs.md) 。
+## 安装过程概述
 
-## Install Process Overview
+The `Setup.exe` 应用程序预设如下:
 
-The `Setup.exe` application preforms the following:
-
-1. **Ensures .NET Framework Installed** - determines if .NET Framework is available, and if not relaunches itself with `/installfx45` to download and launch the .NET Framework installer.
-1. **Create `%LocalAppData%\MyApp` Directory** - creates a directory for the MyApp to be installed.
-2. **Extracts `Update.exe`** - extracts the `Update.exe` application to the application directory (`%LocalAppData%\MyApp`).
-3. **Extracts `MyApp.1.0.0-full.nupkg`** - extracts the MyApp full application package to the  `%LocalAppData%\MyApp\packages\temp` directory.
-4. **Executes `Update.exe` to Finish Install** - executes the `Update.exe` application with the `/install` switch to finish the application installation and then launch the application.
-    1. **Copy MyApp to `app-1.0.0` Directory** - copy the full version of MyApp files to a application sub-directory (e.g., `MyApp\app-1.0.0`). 
-    2. **Launch MyApp** - at the end of the setup process, the Updater launches the  newly installed version of MyApp.
-6. **MyApp Creates Shortcuts** - the first execution of the application will cause shortcuts to be created on the desktop and Windows start menu for MyApp. 
+1. **Ensures .NET Framework Installed** - 确定.NET框架是否可用，如果不可用 `/installfx45`重新启动，下载并启动 .NET 框架安装程序。
+1. **Create `%LocalAppData%\MyApp` Directory** - 为要安装的MyApp创建一个目录。
+2. **Extracts `Update.exe`** - 将Update.exe应用程序解压缩到应用程序目录 directory (`%LocalAppData%\MyApp`).
+3. **Extracts `MyApp.1.0.0-full.nupkg`** - 将MyApp的完整应用程序包解压到  `%LocalAppData%\MyApp\packages\temp` directory.
+4. **Executes `Update.exe` to Finish Install** - 使用`/install`开关执行`Update.exe`应用程序，以完成应用程序安装，然后启动应用程序。
+    1. **复制MyApp到app-1.0.0目录** - 将完整版本的MyApp文件复制到应用程序子目录(e.g., `MyApp\app-1.0.0`). 
+    2. **Launch MyApp** - 在安装过程结束时，更新程序将启动新安装的MyApp版本。
+6. **MyApp创建快捷方式** -应用程序的第一次执行将导致在桌面和Windows开始菜单上创建MyApp的快捷方式。
 
 ## Desktop & Windows Start Shortcuts
 
