@@ -1,43 +1,41 @@
 | [docs](.) / goals.md |
 |:---|
 
-# What Do We Want?
+# 我们做什么?
 
-Deployment and Updates for Desktop applications are a real drag. ClickOnce almost works, but has some glaring bugs that don't seem like they'll ever be fixed. So let's own our own future and build a new one.
+部署和更新桌面应用程序是一个真正的拖累。ClickOnce几乎可以工作，但有一些明显的bug，似乎永远都不会被修复。所以，让我们拥有自己的未来，并建立一个新的未来。
+Windows应用程序的安装和更新应该和谷歌Chrome一样快、一样容易。从应用程序开发人员的角度来看，为我的应用创建一个安装程序并发布更新应该是非常简单的，而不需要经历一些繁琐的步骤
 
-Windows apps should be as fast and as easy to install and update as apps like Google Chrome. From an app developer's side, it should be really straightforward to create an installer for my app, and publish updates to it, without having to jump through insane hoops
+## 配置
 
-## Configuring
+*  为现有的.NET 应用程序集成安装程序应该非常容易。
+* 客户端API应该能够检查更新和接收一个(最好是HTML格式)更新日志。
+* 在安装和更新期间，开发人员应该控制自定义操作和事件。
+* 卸载给了应用程序一个清理的机会(例如，我在卸载时运行了一段代码)
 
-* Integrating the installer for an existing .NET application should be really easy.
-* The client API should be able to check for updates and receive a (preferably in HTML) ChangeLog.
-* Developer should have control over custom actions and events during installing and updating.
-* Uninstall gives a chance for the application to clean up (i.e. I get to run a chunk of code on uninstall)
+## 打包
 
-## Packaging
+* 对于现有的.NET应用程序，生成安装程序应该非常简单，就像对于ClickOnce一样。
+* 为我的应用程序创建一个更新应该是一个非常简单的过程，很容易自动化。
+* 打包将支持增量文件，以减少更新包的大小。
 
-* Generating an installer given an existing .NET application should be really easy, like it is for ClickOnce.
-* Creating an update for my app should be a very simple process that is easily automated.
-* Packaging will support delta files to reduce the size of update packages.
+## 分发
 
-## Distributing
+* 托管一个更新服务器应该是非常简单的，并且应该能够使用简单的HTTP来完成(例如，我应该能够托管我的安装程序和通过S3更新提要)。
+* 支持多种“渠道”(a-la Chrome开发/Beta/发布)。
 
-* Hosting an update server should be really straightforward, and should be able to be done using simple HTTP (i.e. I should be able to host my installer and update feed via S3).
-* Support for multiple "channels" (a-la Chrome Dev/Beta/Release).
+## 安装 
 
-## Installing 
+* 安装是没有向导的™，看起来并不糟糕(或者至少应该有可能看起来不糟糕)。
+* 没有UAC对话框，这意味着…
+* ...安装到本地用户帐户(例如，在%LocalAppData%下)。
+* 没有重新启动。没有一个!
+* 如果需要，可以拉下.NET 框架。
+## 更新
 
-* Install is Wizard-Free™ and doesn't look awful (or at least, it should have the *possibility* to not look awful).
-* No UAC dialogs, which means....
-* ...installs to the local user account (i.e. under `%LocalAppData%`).
-* No Reboots. None!
-* Can pull down the .NET Framework if need be.
-
-## Updating
-
-* Updates should be able to be applied while the application is running.
-* At no time should the user ever be forced to stop what he or she is doing.
-* No Reboots. None!
+* 更新应该能够在应用程序运行时应用。
+* 任何时候都不应该强迫用户停止他或她正在做的事情。
+* 没有重新启动。没有一个!
 
 
 
