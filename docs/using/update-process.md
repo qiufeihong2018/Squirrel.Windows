@@ -2,20 +2,18 @@
 |:---|
 
 
-# Update Process
+# 更新程序
+每次执行应用程序时，`UpdateManager`会执行以下步骤:
+1. **检查更新** - 下载发行版位置的 `RELEASES` 文件，并与本地 `RELEASES` 文件进行比较，以检查是否有更新。
+2. **下载并验证更新包** - 如果有一个新版本， `UpdateManager`决定是下载deltas还是最新的完整包(通过计算哪一个需要较少的下载)来更新到当前版本。这些包与`RELEASES` 文件中的SHA1进行比较，以进行验证。
+3. **从Deltas构建完整的包** - 如果已经下载了delta包，那么将从以前的完整包和下载的delta文件创建一个新的完整包。
+3. **安装新版本** - 从完整包中提取当前版本的MyApp，并基于版本号(例如app-1.0.1)将其放在新的 `%LocalAppData%\MyApp` 安装目录中。
+4. **更新快捷方式** - 桌面和Windows开始菜单快捷方式指向新MyApp版本更新(通过——`--processStart` 命令行参数传递给`Update.exe`)。
+5. **前一个版本清理** - o下一次启动MyApp时，除当前版本和前一个版本外的所有应用都将被删除(例如更新到app-1.0.5后，app-1.0.4将保留，但app-1.0.3及前一个版本将被删除) - see [issue #589](https://github.com/Squirrel/Squirrel.Windows/issues/589)). 
 
-The following steps are performed by the `UpdateManager` each time your app is executed:
+## 回滚
 
-1. **Check for Updates** - the `RELEASES` file at the distribution location is downloaded and compared to local `RELEASES` file to check for any updates.
-2. **Download & Verify Update Packages** - if there is a new release, the `UpdateManager` determines whether to download the deltas or the latest full package (by calculating which one requires less total downloading) to update to the current version. The packages are compared against their SHA1 in the `RELEASES` file for verification.
-3. **Build Full Package from Deltas** - if delta packages were downloaded, a new full package is created from the previous full package and the downloaded delta file.
-3. **Install New Version** - the current version of MyApp is extracted from the full package and placed in a new `%LocalAppData%\MyApp` install directory based on the version number (e.g., `app-1.0.1`).
-4. **Update Shortcuts** - desktop and Windows Start Menu shortcuts are updated to point to the new MyApp version (via the `--processStart` command line parameter passed to `Update.exe`).
-5. **Previous Version Clean-up** - on the next startup of MyApp, all but current and immediately previous version of your app are deleted as part of clean up (e.g., after updating to app-1.0.5, app-1.0.4 will remain, but app-1.0.3 and before will be deleted - see [issue #589](https://github.com/Squirrel/Squirrel.Windows/issues/589)). 
-
-## Rollback
-
-Currently, there is no built-in support for rolling back to a previous version.
+目前，没有内置回滚到以前版本的支持。
 
 ## See Also
 
