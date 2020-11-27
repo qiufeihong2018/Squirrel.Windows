@@ -1,24 +1,22 @@
 | [docs](..)  / [using](.) / debugging-updates.md
 |:---|
 
-# Debugging Updates
-
-The following tips will help you to debug the update process in your application.
-
+# 调试更新
+以下提示将帮助您调试应用程序中的更新过程。
 ## Update.exe not found?
 
-Executing MyApp from Visual Studio will execute the update process and you will get the following exception from the `UpdateManager`:
-
+从Visual Studio执行MyApp会执行更新过程，你会从`UpdateManager`中得到以下异常:
 ~~~
 Update.exe not found, not a Squirrel-installed app?
 ~~~
 
-The `UpdateManager` is expecting to find the `Update.exe` application installed one directory up from the EXE (e.g., the `\bin` directory for default Visual Studio projects). 
 
-To resolve this, you can simply place a file named `Update.exe` or you can copy the `Squirrel.exe` from the `MyApp\packages\squirrel.windows.1.2.2.tools` directory and rename it Update.exe (this is the actual Update.exe packaged inside `Setup.exe`). 
+ `UpdateManager`
+期望找到安装在EXE上一个目录下的`Update.exe` 应用程序(例如，默认Visual Studio项目的\bin目录)。
 
-Executing MyApp from Visual Studio will now cause it to complete the update process and your `\bin` directory will resemble the `%LocalAppData\MyApp%` install directory:
+要解决这个问题，您可以简单地放置一个名为Update.exe的文件，或者您可以从 `MyApp\packages\squirrel.windows.1.2.2.tools`中复制`Squirrel.exe` 。工具目录，并将其重命名为Update.exe(这是实际的Update.exe包在Setup.exe内)。
 
+从Visual Studio执行MyApp将导致它完成更新过程，你的\bin目录将类似于`%LocalAppData\MyApp%`安装目录:
 ![](images/debugging-update-dir.png)
 
 **Tip:** If you want to ensure that the Update.exe is always available in your output directory, you can add the Update.exe file to the Visual Studio project and set its Properties > Copy To Output Directory to 'Copy if newer'. 
