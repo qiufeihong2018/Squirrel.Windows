@@ -3,32 +3,28 @@
 
 
 
-# Step 1. Integrating
+# 步骤 1. 集成
 
-The first step is to configure MyApp to work with Squirrel.Windows. This requires you to install the Squirrel.Windows NuGet Package into the `MyApp.sln`.
-
-## Installing Squirrel.Windows
-
-The easiest way to install the Squirrel.Windows is using the [Package Manager Console](https://docs.NuGet.org/consume/package-manager-console) in Visual Studio after loading the MyApp solution.
-
+第一步是配置MyApp与Squirrel.Windows一起工作。这需要您安装Squirrel。Windows NuGet包到`MyApp.sln`。
+## 安装 Squirrel.Windows
+这是安装松鼠最简单的方法。在加载MyApp解决方案后，Windows正在使用Visual Studio中的[Package Manager Console](https://docs.NuGet.org/consume/package-manager-console) 。
 ~~~powershell
 PM> Install-Package Squirrel.Windows
 ~~~
 
-### Squirrel.Windows References
+### Squirrel.Windows 的引用
 
-The package will install a number of dependent packages as well as tools that will be used to prepare MyApp to be released. The References in the Solution Explorer of the MyApp project now looks like the following (as of Squirrel.Windows version 1.2.2):
-
+该包将安装许多依赖包以及用于准备发布MyApp的工具。MyApp项目的解决方案资源管理器中的引用现在看起来如下(和Squirrel一样)。1.2.2 Windows版本):
 ![](images/1.1-post-package-install.png)
 
-**Tip:** Alternatively, you can use the "Manage NuGet Packages" GUI to install Squirrel.Windows (right clicking on your project in the Solution Explorer of Visual Studio and select "Manage NuGet Packages..."). 
+**提示:** 或者，您可以使用“管理NuGet包”GUI来安装Squirrel。(在Visual Studio的解决方案资源管理器中右键单击您的项目，并选择“管理NuGet包…”)。
+## 基本的更新
 
-## Basic Updating
+对于基本示例，我们将使用来自本地文件系统的MyApp更新，而不是通过web分发文件。有关分发更新文件的其他选项，请参阅[Packaging](2-packaging.md) 。
 
-For the basic example we are going to have MyApp update from your local file system rather than distributing the files via the web.  See section [Packaging](2-packaging.md) for additional options related to the distributing the update files.
+### 基本的Squirrel.Windows更新代码
 
-### Basic Squirrel.Windows Update Code
-The following code is added to MyApp `Program.cs` to cause the application to check for, download, and install any new releases of MyApp in the background while you use the application. 
+下面的代码被添加到MyApp `Program.cs`中，当你使用该应用程序时，它会在后台检查、下载和安装任何新的MyApp版本。
 
 **`Program.cs`**
 
@@ -46,17 +42,17 @@ using (var mgr = new UpdateManager("C:\\Projects\\MyApp\\Releases"))
 }
 ~~~
 
-The code above demonstrates the most basic update mechanism using the `UpdateApp()` method in an asynchronous task. The actions it takes will be discussed further in section [Updating](5-updating.md).
 
-**Caution:** The path you provide the `UpdateManager` is the path to the directory where the `RELEASES` file is located (which is also named `Releases` by default), and not the actual `RELEASES` file.
+上面的代码演示了在异步任务中使用`UpdateApp()` 方法的最基本的更新机制。它所采取的行动将在[Updating](5-updating.md)一节中进一步讨论。
 
-**Tip:** By default, the files for updating MyApp will be placed in the same directory as your `MyApp.sln` file under a `Releases` directory (e.g., `C:\Projects\MyApp\Releases`).
+**注意:** 您为`UpdateManager`提供的路径是发布文件所在目录的路径(默认情况下也命名为 `RELEASES` )，而不是实际的发布`RELEASES`文件。
 
+**提示:** 提示:默认情况下，更新MyApp的文件将与MyApp放在同一个目录中。发布目录下的sln文件 (e.g., `C:\Projects\MyApp\Releases`)。
 
 **Tip:** In this example we simply put the code in the `Program.cs` file. For a production application, place the update code later in start-up process so as to avoid slowing down your program start. 
 
-**Tip:** If you attempt to debug the application via Visual Studio, you will get an exception of `Update.exe not found, not a Squirrel-installed app?`. You can resolve this by placing a copy of the Update.exe in your bin directory (see [Debugging Updates: Update.exe not found?](../using/debugging-updates.md) section for details).
-
+**提示:** 
+如果你尝试通过Visual Studio调试应用程序，你会得到一个 `Update.exe not found, not a Squirrel-installed app?`。可以通过在bin目录中放置一个Update.exe的副本来解决这个问题(see [Debugging Updates: Update.exe not found?](../using/debugging-updates.md) section for details)。
 ---
 | Previous: [Getting Started Guide](0-overview.md) | Next: [2. Packaging](2-packaging.md)|
 |:---|:---|
